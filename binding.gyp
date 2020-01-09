@@ -4,6 +4,7 @@
             "target_name": "<(module_name)",
             "sources": [
                 "src/wx.cpp",
+                "src/misc.cpp",
                 "src/widgets/wxApp.cpp",
                 "src/widgets/wxFrame.cpp",
             ],
