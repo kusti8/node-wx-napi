@@ -7,6 +7,8 @@
                 "src/misc.cpp",
                 "src/widgets/wxApp.cpp",
                 "src/widgets/wxFrame.cpp",
+                "src/widgets/wxPanel.cpp",
+                "src/utils/unwrapper.cpp",
             ],
             "include_dirs": ["<!@(node -p \"require('node-addon-api').include\")"],
             "dependencies": ["<!(node -p \"require('node-addon-api').gyp\")"],
@@ -19,9 +21,18 @@
             },
             "defines": [
                 "NAPI_VERSION=<(napi_build_version)",
+                "_UNICODE",
+                "UNICODE"
             ],
             "msvs_settings": {
                 "VCCLCompilerTool": {"ExceptionHandling": 1}
+            },
+            'msbuild_settings': {
+                'Link': {
+                    'AdditionalLibraryDirectories': [
+                        '../deps/3.1.3/win32/lib/vc14x_x64_dll'
+                    ],
+                },
             },
             "conditions": [
                 [
@@ -59,16 +70,13 @@
                 ],
                 ['OS=="win"', {
                     'include_dirs': [
-                        'deps/5.12.3/win32/include',
-                        'deps/5.12.3/win32/include/QtCore',
-                        'deps/5.12.3/win32/include/QtGui',
-                        'deps/5.12.3/win32/include/QtWidgets',
+                        'deps/3.1.3/win32/include/msvc',
+                        'deps/3.1.3/win32/include'
                     ],
-                    'libraries': [
-                        # TODO: fix node-gyp behavior that requires ../
-                        '../deps/5.12.3/win32/lib/Qt5Core.lib',
-                        '../deps/5.12.3/win32/lib/Qt5Gui.lib',
-                        '../deps/5.12.3/win32/lib/Qt5Widgets.lib',
+                    "defines": [
+                        "WXUSINGDLL",
+                        "wxMSVC_VERSION_AUTO",
+                        "wxMSVC_VERSION_ABI_COMPAT"
                     ]
                 }]
             ]
@@ -88,20 +96,44 @@
                     "copies": [
                         {
                             "files": [
-                                "deps/5.12.3/win32/Qt5Core.dll",
-                                "deps/5.12.3/win32/Qt5Gui.dll",
-                                "deps/5.12.3/win32/Qt5Widgets.dll",
-                                "deps/5.12.3/win32/vccorlib140.dll",
-                                "deps/5.12.3/win32/msvcp140.dll",
-                                "deps/5.12.3/win32/vcruntime140.dll"
+                                "deps/3.1.3/win32/vccorlib140.dll",
+                                "deps/3.1.3/win32/msvcp140.dll",
+                                "deps/3.1.3/win32/vcruntime140.dll",
+
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313ud_net_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313ud_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313ud_xml_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313u_net_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313u_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxbase313u_xml_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_adv_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_aui_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_core_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_adv_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_aui_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_core_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_gl_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_html_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_media_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_propgrid_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_qa_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_ribbon_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_richtext_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_stc_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_webview_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313ud_xrc_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_gl_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_html_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_media_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_propgrid_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_qa_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_ribbon_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_richtext_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_stc_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_webview_vc14x_x64.dll",
+                                "deps/3.1.3/win32/lib/vc14x_x64_dll/wxmsw313u_xrc_vc14x_x64.dll",
                             ],
                             "destination": "<(module_path)"
-                        },
-                        {
-                            "files": [
-                                "deps/5.12.3/win32/platforms/qwindows.dll"
-                            ],
-                            "destination": "<(module_path)/platforms/"
                         }
                     ]
                 }

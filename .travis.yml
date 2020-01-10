@@ -1,0 +1,27 @@
+language: node_js
+dist: xenial
+node_js:
+  - "9.3"
+  - "11.0.0"
+  - "11.8.0"
+
+os:
+  - linux
+  - osx
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-6
+      - libwxgtk3.0-dev
+      - build-essential
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="g++-6"; fi
+
+install:
+  - npm install --build-from-source
+  - COMMIT_MESSAGE=$(git log --format=%B --no-merges -n 1 | tr -d '\n')
+  - if [[ ${COMMIT_MESSAGE} =~ "[publish binary]" ]]; then node-pre-gyp package --build-latest-napi-version-only && node-pre-gyp-github publish; fi;

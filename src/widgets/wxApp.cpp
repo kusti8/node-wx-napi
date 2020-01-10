@@ -38,9 +38,9 @@ WxApp::WxApp(const Napi::CallbackInfo &info) : Napi::ObjectWrap<WxApp>(info)
     //
     //wxInitialize();
 
-    app = new WxWrapApp();
-    app->jsApp = this;
-    wxApp::SetInstance(app);
+    elem = new WxWrapApp();
+    elem->jsApp = this;
+    wxApp::SetInstance(elem);
 
     wxEventLoop *loop = new wxEventLoop();
     wxEventLoop::SetActive(loop);

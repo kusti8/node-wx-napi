@@ -2,17 +2,16 @@
 #define WXFRAME_H
 #include <wx/wx.h>
 #include <wx/frame.h>
-#include <wx/gdicmn.h>
+#include <wx/window.h>
 #include <napi.h>
+#include "../utils/unwrapper.hpp"
 
 class WxFrame;
 class WxWrapFrame : public wxFrame
 {
 public:
-    WxWrapFrame(int width, int height);
+    WxWrapFrame(wxWindow *parent, int width, int height);
     WxFrame *jsFrame;
-
-    bool closed = false;
 
 private:
     void OnResize(wxSizeEvent &event);
@@ -30,6 +29,10 @@ public:
     Napi::FunctionReference OnResizeCallback_;
     Napi::FunctionReference OnCloseCallback_;
 
+    bool closed = false;
+
+    WxWrapFrame *elem;
+
 private:
     static Napi::FunctionReference constructor;
     Napi::Value Show(const Napi::CallbackInfo &info);
@@ -39,8 +42,8 @@ private:
     Napi::Value OnResize(const Napi::CallbackInfo &info);
     Napi::Value OnClose(const Napi::CallbackInfo &info);
     Napi::Value getClosed(const Napi::CallbackInfo &info);
-
-    WxWrapFrame *frame;
+    Napi::Value Close(const Napi::CallbackInfo &info);
+    Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
 };
 
 #endif

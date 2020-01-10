@@ -2,7 +2,9 @@
 #define WXAPP_H
 #include <wx/wx.h>
 #include <wx/evtloop.h>
+#include <wx/window.h>
 #include <napi.h>
+#include "../utils/unwrapper.hpp"
 
 class WxApp;
 class WxWrapApp : public wxApp
@@ -20,12 +22,12 @@ public:
 
     Napi::FunctionReference OnInitCallback_;
 
+    WxWrapApp *elem;
+
 private:
     static Napi::FunctionReference constructor;
     Napi::Value OnInit(const Napi::CallbackInfo &info);
     Napi::Value loop(const Napi::CallbackInfo &info);
-
-    WxWrapApp *app;
 };
 
 #endif

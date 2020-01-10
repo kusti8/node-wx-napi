@@ -8,9 +8,13 @@ setInterval(() => {
   //console.log("Looping");
 }, 1);
 console.log("Making frame");
-const frame = new wx.WxFrame(700, 700);
+const frame = new wx.WxFrame();
 console.log("showing frame");
+frame.SetBackgroundColour(0, 0, 255);
 frame.Show(true);
+const panel = new wx.WxPanel(frame);
+panel.SetBackgroundColour(255, 0, 255);
+panel.Show(true);
 // frame.OnResize((width, height) => {
 //   console.log("Resized", width, height);
 // });
