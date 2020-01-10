@@ -38,6 +38,7 @@ private:
     Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
     Napi::Value SetLabel(const Napi::CallbackInfo &info);
     Napi::Value OnPress(const Napi::CallbackInfo &info);
+    Napi::Value GetBestSize(const Napi::CallbackInfo &info);
 };
 
 #endif

@@ -32,6 +32,7 @@ private:
     Napi::Value GetSize(const Napi::CallbackInfo &info);
     Napi::Value SetLoc(const Napi::CallbackInfo &info);
     Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
+    Napi::Value GetBestSize(const Napi::CallbackInfo &info);
 };
 
 #endif

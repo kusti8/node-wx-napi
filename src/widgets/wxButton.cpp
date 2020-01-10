@@ -31,6 +31,7 @@ Napi::Object WxButton::Init(Napi::Env env, Napi::Object exports)
         InstanceMethod("SetBackgroundColour", &WxButton::SetBackgroundColour),
         InstanceMethod("SetLabel", &WxButton::SetLabel),
         InstanceMethod("OnPress", &WxButton::OnPress),
+        InstanceMethod("GetBestSize", &WxButton::GetBestSize),
     });
     // clang-format on
 
@@ -137,4 +138,17 @@ Napi::Value WxButton::OnPress(const Napi::CallbackInfo &info)
     OnPressCallback_ = Napi::Persistent(info[0].As<Napi::Function>());
 
     return Napi::Value();
+}
+
+Napi::Value WxButton::GetBestSize(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    wxSize size = elem->GetBestSize();
+
+    Napi::Object out = Napi::Object::New(env);
+    out.Set("w", size.GetWidth());
+    out.Set("h", size.GetHeight());
+
+    return out;
 }

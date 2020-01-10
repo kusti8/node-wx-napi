@@ -20,6 +20,7 @@ Napi::Object WxPanel::Init(Napi::Env env, Napi::Object exports)
         InstanceMethod("GetSize", &WxPanel::GetSize),
         InstanceMethod("SetLoc", &WxPanel::SetLoc),
         InstanceMethod("SetBackgroundColour", &WxPanel::SetBackgroundColour),
+        InstanceMethod("GetBestSize", &WxPanel::GetBestSize),
     });
     // clang-format on
 
@@ -106,4 +107,17 @@ Napi::Value WxPanel::SetBackgroundColour(const Napi::CallbackInfo &info)
     elem->SetBackgroundColour(wxColour(color));
 
     return Napi::Value();
+}
+
+Napi::Value WxPanel::GetBestSize(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    wxSize size = elem->GetBestSize();
+
+    Napi::Object out = Napi::Object::New(env);
+    out.Set("w", size.GetWidth());
+    out.Set("h", size.GetHeight());
+
+    return out;
 }

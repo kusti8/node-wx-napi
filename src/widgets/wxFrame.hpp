@@ -44,6 +44,7 @@ private:
     Napi::Value getClosed(const Napi::CallbackInfo &info);
     Napi::Value Close(const Napi::CallbackInfo &info);
     Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
+    Napi::Value GetBestSize(const Napi::CallbackInfo &info);
 };
 
 #endif

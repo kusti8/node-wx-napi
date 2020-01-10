@@ -50,6 +50,7 @@ Napi::Object WxFrame::Init(Napi::Env env, Napi::Object exports)
         InstanceMethod("getClosed", &WxFrame::getClosed),
         InstanceMethod("Close", &WxFrame::Close),
         InstanceMethod("SetBackgroundColour", &WxFrame::SetBackgroundColour),
+        InstanceMethod("GetBestSize", &WxFrame::GetBestSize),
     });
     // clang-format on
 
@@ -175,4 +176,17 @@ Napi::Value WxFrame::SetBackgroundColour(const Napi::CallbackInfo &info)
     elem->SetBackgroundColour(wxColour(color));
 
     return Napi::Value();
+}
+
+Napi::Value WxFrame::GetBestSize(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    wxSize size = elem->GetBestSize();
+
+    Napi::Object out = Napi::Object::New(env);
+    out.Set("w", size.GetWidth());
+    out.Set("h", size.GetHeight());
+
+    return out;
 }
