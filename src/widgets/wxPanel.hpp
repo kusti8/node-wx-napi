@@ -4,6 +4,7 @@
 #include <wx/panel.h>
 #include <wx/window.h>
 #include <napi.h>
+#include "wxWindow_macros.hpp"
 #include "../utils/unwrapper.hpp"
 
 class WxPanel;
@@ -27,12 +28,9 @@ public:
 
 private:
     static Napi::FunctionReference constructor;
-    Napi::Value Show(const Napi::CallbackInfo &info);
-    Napi::Value SetSize(const Napi::CallbackInfo &info);
-    Napi::Value GetSize(const Napi::CallbackInfo &info);
-    Napi::Value SetLoc(const Napi::CallbackInfo &info);
-    Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
-    Napi::Value GetBestSize(const Napi::CallbackInfo &info);
+
+    // WxWindow Funcs
+    WXWINDOW_DEFS
 };
 
 #endif
