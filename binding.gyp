@@ -8,6 +8,7 @@
                 "src/widgets/wxApp.cpp",
                 "src/widgets/wxFrame.cpp",
                 "src/widgets/wxPanel.cpp",
+                "src/widgets/wxButton.cpp",
                 "src/utils/unwrapper.cpp",
             ],
             "include_dirs": ["<!@(node -p \"require('node-addon-api').include\")"],

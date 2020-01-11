@@ -16,6 +16,10 @@ frame.Show(true);
 const panel = new wx.WxPanel(frame);
 panel.SetBackgroundColour(255, 0, 255);
 panel.Show(true);
+const button = new wx.WxButton(panel);
+button.SetLabel("Hi")
+button.OnPress(() => console.log("Button pressed"))
+button.Show(true)
 // frame.OnResize((width, height) => {
 //   console.log("Resized", width, height);
 // });

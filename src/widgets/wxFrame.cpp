@@ -41,15 +41,11 @@ Napi::Object WxFrame::Init(Napi::Env env, Napi::Object exports)
     Napi::HandleScope scope(env);
     // clang-format off
     Napi::Function func = DefineClass(env, "WxFrame", {
-        InstanceMethod("Show", &WxFrame::Show),
-        InstanceMethod("SetSize", &WxFrame::SetSize),
-        InstanceMethod("GetSize", &WxFrame::GetSize),
-        InstanceMethod("SetLoc", &WxFrame::SetLoc),
         InstanceMethod("OnResize", &WxFrame::OnResize),
         InstanceMethod("OnClose", &WxFrame::OnClose),
         InstanceMethod("getClosed", &WxFrame::getClosed),
         InstanceMethod("Close", &WxFrame::Close),
-        InstanceMethod("SetBackgroundColour", &WxFrame::SetBackgroundColour),
+        WXWINDOW_JS_DEFINES(WxFrame)
     });
     // clang-format on
 
@@ -80,50 +76,6 @@ WxFrame::WxFrame(const Napi::CallbackInfo &info) : Napi::ObjectWrap<WxFrame>(inf
     printf("made frame\n");
 
     elem->jsFrame = this;
-}
-
-Napi::Value WxFrame::Show(const Napi::CallbackInfo &info)
-{
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    elem->Show(info[0].ToBoolean());
-
-    return Napi::Value();
-}
-
-Napi::Value WxFrame::SetSize(const Napi::CallbackInfo &info)
-{
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    elem->SetSize(info[0].ToNumber(), info[1].ToNumber());
-
-    return Napi::Value();
-}
-
-Napi::Value WxFrame::GetSize(const Napi::CallbackInfo &info)
-{
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    wxSize size = elem->GetSize();
-
-    Napi::Object out = Napi::Object::New(env);
-    out.Set("w", size.GetWidth());
-    out.Set("h", size.GetHeight());
-
-    return out;
-}
-
-Napi::Value WxFrame::SetLoc(const Napi::CallbackInfo &info)
-{
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    elem->SetSize(info[0].ToNumber(), info[1].ToNumber(), wxDefaultCoord, wxDefaultCoord, wxSIZE_USE_EXISTING);
-
-    return Napi::Value();
 }
 
 Napi::Value WxFrame::OnResize(const Napi::CallbackInfo &info)
@@ -165,18 +117,4 @@ Napi::Value WxFrame::Close(const Napi::CallbackInfo &info)
     return Napi::Value();
 }
 
-Napi::Value WxFrame::SetBackgroundColour(const Napi::CallbackInfo &info)
-{
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    int r = info[0].ToNumber();
-    int g = info[1].ToNumber();
-    int b = info[2].ToNumber();
-
-    unsigned long color = ((b & 0xff) << 16) + ((g & 0xff) << 8) + (r & 0xff);
-
-    elem->SetBackgroundColour(wxColour(color));
-
-    return Napi::Value();
-}
+WXWINDOW_BASE_FUNCS(WxFrame)

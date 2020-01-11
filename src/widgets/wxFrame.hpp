@@ -4,6 +4,7 @@
 #include <wx/frame.h>
 #include <wx/window.h>
 #include <napi.h>
+#include "wxWindow_macros.hpp"
 #include "../utils/unwrapper.hpp"
 
 class WxFrame;
@@ -35,15 +36,13 @@ public:
 
 private:
     static Napi::FunctionReference constructor;
-    Napi::Value Show(const Napi::CallbackInfo &info);
-    Napi::Value SetSize(const Napi::CallbackInfo &info);
-    Napi::Value GetSize(const Napi::CallbackInfo &info);
-    Napi::Value SetLoc(const Napi::CallbackInfo &info);
     Napi::Value OnResize(const Napi::CallbackInfo &info);
     Napi::Value OnClose(const Napi::CallbackInfo &info);
     Napi::Value getClosed(const Napi::CallbackInfo &info);
     Napi::Value Close(const Napi::CallbackInfo &info);
-    Napi::Value SetBackgroundColour(const Napi::CallbackInfo &info);
+
+    // WxWindow Funcs
+    WXWINDOW_DEFS
 };
 
 #endif
