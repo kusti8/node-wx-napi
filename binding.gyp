@@ -38,20 +38,49 @@
                 [
                     "OS==\"mac\"",
                     {
-                        "cflags+": ["-fvisibility=hidden"],
-                        "xcode_settings": {
-                            "GCC_SYMBOLS_PRIVATE_EXTERN": "YES"
+                        "xcode_settings": { # Mac doesn't like cflags
+                            "GCC_SYMBOLS_PRIVATE_EXTERN": "YES",
+                            "OTHER_CFLAGS": [
+                                "-I../deps/3.1.3/darwin/lib/wx/include/osx_cocoa-unicode-3.1",
+                                "-I../deps/3.1.3/darwin/include",
+                                "-D_FILE_OFFSET_BITS=64",
+                                "-DWXUSINGDLL",
+                                "-D__WXMAC__",
+                                "-D__WXOSX__",
+                                "-D__WXOSX_COCOA__"
+                            ]
                         },
-                        'include_dirs': [
-                            'deps/5.12.3/darwin/include',
-                            'deps/5.12.3/darwin/include/QtCore',
-                            'deps/5.12.3/darwin/include/QtGui',
-                            'deps/5.12.3/darwin/include/QtWidgets'
+                        'ldflags': [
+                            '-L../deps/3.1.3/darwin/lib',
+                            '-framework IOKit',
+                            '-framework Carbon',
+                            '-framework Cocoa',
+                            '-framework AudioToolbox',
+                            '-framework System',
+                            '-framework OpenGL',
+                            '-lwx_osx_cocoau_xrc-3.1',
+                            '-lwx_osx_cocoau_html-3.1',
+                            '-lwx_osx_cocoau_qa-3.1',
+                            '-lwx_osx_cocoau_core-3.1',
+                            '-lwx_baseu_xml-3.1',
+                            '-lwx_baseu_net-3.1',
+                            '-lwx_baseu-3.1'
                         ],
                         'libraries': [
-                            '../deps/5.12.3/darwin/lib/QtCore.framework/QtCore',
-                            '../deps/5.12.3/darwin/lib/QtGui.framework/QtGui',
-                            '../deps/5.12.3/darwin/lib/QtWidgets.framework/QtWidgets',
+                            '-L../deps/3.1.3/darwin/lib',
+                            '-framework IOKit',
+                            '-framework Carbon',
+                            '-framework Cocoa',
+                            '-framework AudioToolbox',
+                            '-framework System',
+                            '-framework OpenGL',
+                            '-lwx_osx_cocoau_xrc-3.1',
+                            '-lwx_osx_cocoau_html-3.1',
+                            '-lwx_osx_cocoau_qa-3.1',
+                            '-lwx_osx_cocoau_core-3.1',
+                            '-lwx_baseu_xml-3.1',
+                            '-lwx_baseu_net-3.1',
+                            '-lwx_baseu-3.1'
                         ]
                     }
                 ],
@@ -142,8 +171,7 @@
                     "copies": [
                         {
                             "files": [
-                                "deps/5.12.3/darwin/lib",
-                                "deps/5.12.3/darwin/platforms"
+                                "deps/3.1.3/darwin/lib",
                             ],
                             "destination": "<(module_path)"
                         }

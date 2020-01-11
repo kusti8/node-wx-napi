@@ -5,9 +5,10 @@ char **argv = NULL;
 
 bool WxWrapApp::OnInit()
 {
-    //printf("Called oninit\n");
+    printf("Called oninit\n");
     if (!jsApp->OnInitCallback_.IsEmpty())
         jsApp->OnInitCallback_.Call({});
+    printf("done oninit\n");
     return true;
 }
 
@@ -42,16 +43,23 @@ WxApp::WxApp(const Napi::CallbackInfo &info) : Napi::ObjectWrap<WxApp>(info)
     elem->jsApp = this;
     wxApp::SetInstance(elem);
 
+    // printf("In app\n");
+
     wxEventLoop *loop = new wxEventLoop();
     wxEventLoop::SetActive(loop);
+
+    // printf("Past loop\n");
 
     if (!wxEntryStart(argc, argv))
     {
         //cerr << "wx failed to start\n";
+        printf("Failed to strart\n");
         wxExit();
     }
 
-    wxTheApp->CallOnInit();
+    // printf("Calling init\n");
+    //wxTheApp->CallOnInit();
+    // printf("Past init\n");
 }
 
 Napi::Value WxApp::OnInit(const Napi::CallbackInfo &info)

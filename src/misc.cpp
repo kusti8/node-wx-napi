@@ -11,6 +11,8 @@ Napi::Object desktopSize(const Napi::CallbackInfo &info)
 
     Napi::Object out = Napi::Object::New(env);
 
+    printf("Displays %d", wxDisplay::GetCount());
+
     out.Set("w", wxGetDisplaySize().GetWidth());
     out.Set("h", wxGetDisplaySize().GetHeight());
 

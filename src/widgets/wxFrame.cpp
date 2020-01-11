@@ -65,6 +65,8 @@ WxFrame::WxFrame(const Napi::CallbackInfo &info) : Napi::ObjectWrap<WxFrame>(inf
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
+    printf("in frame\n");
+
     if (info.Length() > 0)
     {
         wxWindow *parent = unwrap(info[0]);
@@ -74,6 +76,8 @@ WxFrame::WxFrame(const Napi::CallbackInfo &info) : Napi::ObjectWrap<WxFrame>(inf
     {
         elem = new WxWrapFrame(NULL, 250, 250);
     }
+
+    printf("made frame\n");
 
     elem->jsFrame = this;
 }

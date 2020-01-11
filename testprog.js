@@ -7,6 +7,7 @@ setInterval(() => {
   if (frame.getClosed()) console.log("is closed");
   //console.log("Looping");
 }, 1);
+console.log(wx.desktopSize());
 console.log("Making frame");
 const frame = new wx.WxFrame();
 console.log("showing frame");
