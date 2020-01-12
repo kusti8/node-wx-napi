@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/kusti8/node-wx-napi"
+    "url": "https://github.com/kusti8/node-wx-napi.git"
   },
   "author": "Gustav Hansen <hello@kusti8.com>",
   "license": "MIT",
